@@ -1,0 +1,1 @@
+cd ENV/Scripts && activate && cd ../..
