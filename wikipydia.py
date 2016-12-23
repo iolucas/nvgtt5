@@ -28,12 +28,6 @@ def getPage(page, lang="en"):
     #Split document by its sections
     docSections = __splitIntoSections__(docHtml)
 
-
-    for i, section in enumerate(docSections):
-        print "SECTION " + str(i) + "\n"
-        print '\n'.join([tag.text for tag in section]).encode('utf-8')
-        print "\n\n"
-
     structPageData = {
         'full': docHtml,
         'sections': docSections
