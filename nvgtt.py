@@ -180,34 +180,3 @@ presVects.sort(key=getVectVal, reverse=True)
 
 for vect in presVects:
     print vect[0].encode('utf-8'), vect[1], vect[2]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
