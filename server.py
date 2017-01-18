@@ -17,7 +17,7 @@ class UploadHandler(object):
     def GET(self, article):
 
         def getVectVal(vect):
-            return vect[2]
+            return vect[3]
 
         presVects = getLinksScore(article)
 
@@ -26,11 +26,15 @@ class UploadHandler(object):
         resultArr = []
 
         for vect in presVects:
-            resultArr.append(vect[0].encode('utf-8') + " " + str(vect[2]))
+            if vect[1] == article:
+                continue
+            #resultArr.append("<a href='upload?='" + vect[1].encode('utf-8') + "'>" + vect[0].encode('utf-8') + "</a> " + str(vect[2]))
+            resultArr.append("<a href='upload?article=" + vect[0] + "'>" + vect[1].encode('utf-8') + "</a> " + 
+                str(vect[2]) + " " + str(vect[3]))
 
         return '<html><body><span style="font-size:16px;">' + '<br>'.join(resultArr) + '</span></body></html>'
 
-must think how to keep going
+# must think how to keep going
     def POST(self, file):
 
         return 'post'

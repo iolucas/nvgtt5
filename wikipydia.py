@@ -29,6 +29,8 @@ def getPage(page, lang="en"):
     docSections = __splitIntoSections__(docHtml)
 
     structPageData = {
+        'title': pageData['parse']['title'],
+        'pageid': pageData['parse']['pageid'],
         'full': docHtml,
         'sections': docSections
     }

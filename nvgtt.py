@@ -29,9 +29,15 @@ def getLinksScore(pageName):
     #Avoid links with : that means special links for wikipedia
     #Clear parentheses in text cause it is not handled proper by text boundaries \b
     #targetWords = set([re.sub(r" \(.*\)", "", link.text.lower()) for link in soup.findAll('a') if link['href'][0:6] == '/wiki/' and not ':' in link['href']])
-    targetLinks = set([(link['href'][6:], link.text.lower()) for link in soup.findAll('a') if link['href'][0:6] == '/wiki/' and not ':' in link['href']])
+    targetLinks = set([(link['href'][6:], link.text.lower()) for link in soup.findAll('a') if link['href'][0:6] == '/wiki/' and not ':' in link['href'] and not '(disambiguation)' in link['href']])
     #check why the "for" word is appearing on python
     #test without removing parentheses
+
+
+    #create and populate a hyper link dict
+    hlDict = dict()
+    for link, text in targetLinks:
+        hlDict[text] = link
 
     sectionsSoup = pageData['sections']
 
@@ -50,8 +56,7 @@ def getLinksScore(pageName):
 
     for vec in getPresenceVector(sectionTexts, targetLinks).items():
         vecWeight = getVectorWeight(vec[1], importVector)
-
-        presVects.append((vec[0], vec[1], vecWeight))
+        presVects.append((vec[0],hlDict[vec[0]], vec[1], vecWeight))
 
 
     return presVects
@@ -101,14 +106,16 @@ if __name__ == "__main__":
     import sys
 
     def getVectVal(vect):
-        return vect[2]
+        """Function to return the sort value of the target vector"""
+        return vect[3]
+
 
     presVects = getLinksScore(sys.argv[1])
 
     presVects.sort(key=getVectVal, reverse=True)
 
     for vect in presVects:
-        print vect[0].encode('utf-8'), vect[1], vect[2]
+        print vect[0].encode('utf-8'), vect[1], vect[2], vect[3]
 
 
 
